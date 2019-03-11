@@ -8,7 +8,7 @@ ID_HASH_LENGTH = 6
 
 class HashedIdModel(models.Model):
     hash_id = models.CharField(
-        max_length=ID_HASH_LENGTH, primary_key=True, unique=True)
+        max_length=ID_HASH_LENGTH, primary_key=True, unique=True, blank=True)
 
     def save(self, *args, **kwargs):
         seed_string = string.digits + string.ascii_lowercase + string.ascii_uppercase
