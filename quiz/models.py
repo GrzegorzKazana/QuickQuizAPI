@@ -13,8 +13,8 @@ class HashedIdModel(models.Model):
     def save(self, *args, **kwargs):
         seed_string = string.digits + string.ascii_lowercase + string.ascii_uppercase
         while not self.hash_id:
-            new_hash = random.sample(seed_string, ID_HASH_LENGTH)
-            if self.objects.filter(pk=new_hash).count() == 0:
+            new_hash = ''.join(random.sample(seed_string, ID_HASH_LENGTH))
+            if type(self).objects.filter(pk=new_hash).count() == 0:
                 self.hash_id = new_hash
 
         super(HashedIdModel, self).save(*args, **kwargs)
