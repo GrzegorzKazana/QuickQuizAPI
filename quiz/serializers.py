@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from quiz.models import Quiz, Question, Answer
+from rest_framework.exceptions import APIException
 
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -26,15 +27,17 @@ class QuizSerializer(serializers.ModelSerializer):
         fields = ('hash_id', 'quiz_title', 'questions',)
 
     def create(self, validated_data):
-        questions_data = validated_data.pop('question_set')
-        quiz = Quiz.objects.create(**validated_data)
-        for question_data in questions_data:
-            question = Question.objects.create(
-                quiz=quiz, question_text=question_data['question_text'])
-            answers = [Answer.objects.create(
-                to_question=question, answer_text=answer_data['answer_text']) for answer_data in question_data['answer_set']]
-            if len(answers) > question_data['correct_answer_index']:
-                question.correct_answer = answers[question_data['correct_answer_index']]
-                question.save()
-
+        try:
+            questions_data = validated_data.pop('question_set')
+            quiz = Quiz.objects.create(**validated_data)
+            for question_data in questions_data:
+                question = Question.objects.create(
+                    quiz=quiz, question_text=question_data['question_text'])
+                answers = [Answer.objects.create(
+                    to_question=question, answer_text=answer_data['answer_text']) for answer_data in question_data['answer_set']]
+                if len(answers) > question_data['correct_answer_index']:
+                    question.correct_answer = answers[question_data['correct_answer_index']]
+                    question.save()
+        except KeyError as e:
+            raise APIException("failed to parse json" + str(e))
         return quiz
