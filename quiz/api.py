@@ -5,7 +5,4 @@ from .serializers import AnswerSerializer, QuestionSerializer, QuizSerializer
 
 class QuizViewSet(viewsets.ModelViewSet):
     queryset = Quiz.objects.all()
-    permission_classes = [
-        permissions.AllowAny
-    ]
     serializer_class = QuizSerializer

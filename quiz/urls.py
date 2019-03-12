@@ -1,5 +1,5 @@
 from rest_framework import routers
-from .api import QuizViewSet
+from quiz.api import QuizViewSet
 
 
 router = routers.DefaultRouter()
