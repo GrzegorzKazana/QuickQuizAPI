@@ -28,6 +28,7 @@ class Quiz(HashedIdModel):
 
 
 class Question(models.Model):
+    question_id = models.AutoField(primary_key=True)
     question_text = models.CharField(max_length=255)
     quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
     correct_answer = models.ForeignKey(
@@ -35,5 +36,6 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
+    answer_id = models.AutoField(primary_key=True)
     to_question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer_text = models.CharField(max_length=127)
