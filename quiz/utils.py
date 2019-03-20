@@ -20,6 +20,11 @@ def custom_exception_handler(exc, context):
 
 class CustomJsonRenderer(JSONRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        if isinstance(data, list):
+            data = {
+                'data_list': data
+            }
+
         if 'success' not in data:
             data['success'] = True
             data['message'] = ''
