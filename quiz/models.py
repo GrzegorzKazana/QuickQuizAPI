@@ -24,7 +24,7 @@ class HashedIdModel(models.Model):
 
 
 class Quiz(HashedIdModel):
-    quiz_title = models.CharField(max_length=255)
+    quiz_title = models.CharField(max_length=255, blank=True, default='')
 
 
 class Question(models.Model):
